@@ -87,8 +87,8 @@ module.exports = function(grunt) {
     'uglify': {
       options: {
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> \n' +
-          '* http://jdewit.github.com/bootstrap-timepicker \n' +
-          '* Copyright (c) <%= grunt.template.today("yyyy") %> Joris de Wit \n' +
+          '* https://github.com/nholling/bootstrap-3-timepicker \n' +
+          '* Copyright (c) <%= grunt.template.today("yyyy") %> Nate Hollingsworth \n' +
           '* MIT License \n' +
           '*/',
         report: 'min'

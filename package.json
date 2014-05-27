@@ -1,12 +1,11 @@
 {
   "name": "bootstrap-timepicker",
-  "description": "Timepicker widget for Twitter Bootstrap 2.*",
-  "version": "0.2.6",
-  "homepage": "http://jdewit.github.com/bootstrap-timepicker",
+  "description": "Timepicker widget for Twitter Bootstrap 3.*",
+  "version": "0.3.0",
+  "homepage": "http://nholling.github.com/bootstrap-3-timepicker",
   "author": {
-    "name": "Joris de Wit",
-    "email": "joris.w.dewit@gmail.com",
-    "url": "http://jorisdewit.ca"
+    "name": "Nate Hollingsworth",
+    "email": "nate@nexia.ca"
   },
   "repository": {
     "type": "git",
@@ -16,7 +15,7 @@
     "test": "bower install; grunt test;"
   },
   "bugs": {
-    "url": "https://github.com/jdewit/bootstrap-timepicker/issues"
+    "url": "https://github.com/nholling/bootstrap-3-timepicker/issues"
   },
   "devDependencies": {
     "grunt-cli": "~0.1",

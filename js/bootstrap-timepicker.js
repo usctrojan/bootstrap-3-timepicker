@@ -1,9 +1,9 @@
 /*!
- * Timepicker Component for Twitter Bootstrap
+ * Timepicker Component for Twitter Bootstrap 3
  *
- * Copyright 2013 Joris de Wit
+ * Copyright 2014 Nathan Hollingsworth
  *
- * Contributors https://github.com/jdewit/bootstrap-timepicker/graphs/contributors
+ * Forked from: https://github.com/jdewit/bootstrap-timepicker
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -242,10 +242,10 @@
         templateContent;
 
       if (this.showInputs) {
-        hourTemplate = '<input type="text" class="bootstrap-timepicker-hour" maxlength="2"/>';
-        minuteTemplate = '<input type="text" class="bootstrap-timepicker-minute" maxlength="2"/>';
-        secondTemplate = '<input type="text" class="bootstrap-timepicker-second" maxlength="2"/>';
-        meridianTemplate = '<input type="text" class="bootstrap-timepicker-meridian" maxlength="2"/>';
+        hourTemplate = '<input type="text" name="hour" class="bootstrap-timepicker-hour form-control" maxlength="2"/>';
+        minuteTemplate = '<input type="text" name="minute" class="bootstrap-timepicker-minute form-control" maxlength="2"/>';
+        secondTemplate = '<input type="text" name="second" class="bootstrap-timepicker-second form-control" maxlength="2"/>';
+        meridianTemplate = '<input type="text" name="meridian" class="bootstrap-timepicker-meridian form-control" maxlength="2"/>';
       } else {
         hourTemplate = '<span class="bootstrap-timepicker-hour"></span>';
         minuteTemplate = '<span class="bootstrap-timepicker-minute"></span>';
