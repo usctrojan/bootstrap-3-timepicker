@@ -1,7 +1,7 @@
 Timepicker for Twitter Bootstrap 3.x
 =======
 
-A simple timepicker component for Twitter Bootstrap.
+A simple timepicker component for Twitter Bootstrap. [![Build Status](https://travis-ci.org/nholling/bootstrap-3-timepicker.svg?branch=master)](https://travis-ci.org/nholling/bootstrap-3-timepicker)
 
 
 Demos & Documentation
