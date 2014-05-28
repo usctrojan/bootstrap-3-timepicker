@@ -3,10 +3,6 @@ Timepicker for Twitter Bootstrap 3.x
 
 A simple timepicker component for Twitter Bootstrap.
 
-Status
-======
-This project is no longer maintained. Fork away or use some of the other excellent timepickers available.
-
 
 Demos & Documentation
 =====================
