@@ -436,7 +436,7 @@ describe('Timepicker feature', function() {
       hideEvents++;
     });
 
-    $input1.parents('div').find('.add-on').trigger('click');
+    $input1.parents('div').find('.input-group-addon').trigger('click');
     $('body').trigger('mousedown');
 
     expect(hideEvents).toBe(1);

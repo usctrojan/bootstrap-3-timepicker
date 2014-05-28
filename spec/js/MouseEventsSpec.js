@@ -75,7 +75,7 @@ describe('Mouse events feature', function() {
       showEvents++;
     });
 
-    $input1.parents('div').find('.add-on').trigger('click');
+    $input1.parents('div').find('.input-group-addon').trigger('click');
 
     expect(tp1.isOpen).toBe(true);
     expect(showEvents).toBe(1);
@@ -93,7 +93,7 @@ describe('Mouse events feature', function() {
       time = e.time.value;
     });
 
-    $input1.parents('div').find('.add-on').trigger('click');
+    $input1.parents('div').find('.input-group-addon').trigger('click');
     expect(tp1.isOpen).toBe(true);
 
     //tp1.$widget.find('.bootstrap-timepicker-hour').trigger('mousedown');
@@ -107,7 +107,7 @@ describe('Mouse events feature', function() {
 
   it('should not show widget when clicking add-on icon if showWidgetOnAddonClick is false', function() {
     expect(tp5.isOpen).toBe(false);
-    $input5.parents('div').find('.add-on').trigger('click');
+    $input5.parents('div').find('.input-group-addon').trigger('click');
     expect(tp5.isOpen).toBe(false);
   });
 
@@ -311,7 +311,7 @@ describe('Mouse events feature', function() {
       //tp1.setTime('11:55 AM');
       //tp1.update();
 
-      //$input1.parents('.bootstrap-timepicker').find('.add-on').trigger('click');
+      //$input1.parents('.bootstrap-timepicker').find('.input-group-addon').trigger('click');
       //expect(tp1.isOpen).toBe(true);
       //expect(tp1.$widget.find('.bootstrap-timepicker-hour').val()).toBe('11');
       //tp1.$widget.find('.bootstrap-timepicker-hour').trigger('click');

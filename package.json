@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jdewit/bootstrap-timepicker"
+    "url": "git://github.com/nholling/bootstrap-3-timepicker"
   },
   "scripts": {
     "test": "bower install; grunt test;"

@@ -39,8 +39,8 @@
     _init: function() {
       var self = this;
 
-      if (this.showWidgetOnAddonClick && (this.$element.parent().hasClass('input-append') || this.$element.parent().hasClass('input-prepend'))) {
-        this.$element.parent('.input-append, .input-prepend').find('.add-on').on({
+      if (this.showWidgetOnAddonClick && this.$element.parent().hasClass('input-group')) {
+        this.$element.parent('.input-group').find('.input-group-addon').on({
           'click.timepicker': $.proxy(this.showWidget, this)
         });
         this.$element.on({
@@ -299,7 +299,7 @@
       case 'modal':
         template = '<div class="bootstrap-timepicker-widget modal hide fade in" data-backdrop="'+ (this.modalBackdrop ? 'true' : 'false') +'">'+
           '<div class="modal-header">'+
-            '<a href="#" class="close" data-dismiss="modal">×</a>'+
+            '<a href="#" class="close" data-dismiss="modal">&times;</a>'+
             '<h3>Pick a Time</h3>'+
           '</div>'+
           '<div class="modal-content">'+
@@ -623,7 +623,7 @@
       this.$widget.removeClass('timepicker-orient-top timepicker-orient-bottom timepicker-orient-right timepicker-orient-left');
 
       if (this.orientation.x !== 'auto') {
-        this.picker.addClass('datepicker-orient-' + this.orientation.x);
+        this.picker.addClass('timepicker-orient-' + this.orientation.x);
         if (this.orientation.x === 'right') {
           left -= widgetWidth - width;
         }
@@ -858,7 +858,7 @@
       var self = this;
       $(document).on('mousedown.timepicker, touchend.timepicker', function (e) {
         // This condition was inspired by bootstrap-datepicker.
-        // The element the timepicker is invoked on is the input but it has a sibling for addon/button.
+        // The element the timepicker is invoked on is the input but it has a sibling for input-group-addon/button.
         if (!(self.$element.parent().find(e.target).length ||
             self.$widget.is(e.target) ||
             self.$widget.find(e.target).length)) {
