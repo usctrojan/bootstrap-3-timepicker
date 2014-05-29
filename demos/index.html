@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -8,33 +8,48 @@
         <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../js/bootstrap-timepicker.js"></script>
+        <style>
+            .timePickerRow {
+                margin-top: 20px;
+            }
+        </style>
     </head>
     <body>
-        <div class="input-group bootstrap-timepicker">
-            <input id="timepicker1" type="text" class="form-control">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+        <div class="container">
+            <div class="row timePickerRow">
+                <div class="col-md-6">
+                    <div class="input-group bootstrap-timepicker">
+                        <input id="timepicker1" type="text" class="form-control">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>                
+            </div>
+
+            <script type="text/javascript">
+                $('#timepicker1').timepicker();
+            </script>
+            
+            <div class="row timePickerRow">
+                <div class="col-md-6">
+                    <div class="input-group bootstrap-timepicker">
+                        <input id="timepicker2" type="text" class="form-control">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-time"></i>
+                        </span>
+                    </div>
+                </div>                
+            </div>
+     
+            <script type="text/javascript">
+                $('#timepicker2').timepicker({
+                    minuteStep: 1,
+                    //template: 'modal',
+                    appendWidgetTo: 'body',
+                    //showSeconds: true,
+                    showMeridian: false,
+                    defaultTime: false
+                });
+            </script>
         </div>
- 
-        <script type="text/javascript">
-            $('#timepicker1').timepicker();
-        </script>
-        
-        <div class="input-group bootstrap-timepicker">
-            <input id="timepicker2" type="text" class="form-control">
-            <span class="input-group-addon">
-                <i class="glyphicon glyphicon-time"></i>
-            </span>
-        </div>
- 
-        <script type="text/javascript">
-            $('#timepicker2').timepicker({
-                minuteStep: 1,
-                //template: 'modal',
-                appendWidgetTo: 'body',
-                //showSeconds: true,
-                showMeridian: false,
-                defaultTime: false
-            });
-        </script>
     </body>
 </html>
