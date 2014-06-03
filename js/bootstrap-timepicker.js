@@ -29,6 +29,7 @@
     this.template = options.template;
     this.appendWidgetTo = options.appendWidgetTo;
     this.showWidgetOnAddonClick = options.showWidgetOnAddonClick;
+    this.timeSeparator = options.separator;
 
     this._init();
   };
@@ -269,10 +270,10 @@
          '</tr>'+
          '<tr>'+
            '<td>'+ hourTemplate +'</td> '+
-           '<td class="separator">:</td>'+
+           '<td class="separator">' + this.timeSeparator + '</td>'+
            '<td>'+ minuteTemplate +'</td> '+
            (this.showSeconds ?
-            '<td class="separator">:</td>'+
+            '<td class="separator">' + this.timeSeparator + '</td>'+
             '<td>'+ secondTemplate +'</td>'
            : '') +
            (this.showMeridian ?
@@ -323,7 +324,11 @@
         return '';
       }
 
-      return this.hour + ':' + (this.minute.toString().length === 1 ? '0' + this.minute : this.minute) + (this.showSeconds ? ':' + (this.second.toString().length === 1 ? '0' + this.second : this.second) : '') + (this.showMeridian ? ' ' + this.meridian : '');
+      return this.hour +
+        this.timeSeparator +
+        (this.minute.toString().length === 1 ? '0' + this.minute : this.minute) +
+        (this.showSeconds ? this.timeSeparator + (this.second.toString().length === 1 ? '0' + this.second : this.second) : '') +
+        (this.showMeridian ? ' ' + this.meridian : '');
     },
 
     hideWidget: function() {
@@ -729,6 +734,7 @@
     },
 
     setTime: function(time, ignoreWidget) {
+      var regex;
       if (!time) {
         this.clear();
         return;
@@ -764,9 +770,10 @@
           meridian = 'AM';
         }
 
-        time = time.replace(/[^0-9\:]/g, '');
+        regex = new RegExp('[^0-9\\' + this.timeSeparator + ']', 'g');
+        time = time.replace(regex, '');
 
-        timeArray = time.split(':');
+        timeArray = time.split(this.timeSeparator);
 
         hour = timeArray[0] ? timeArray[0].toString() : timeArray.toString();
         minute = timeArray[1] ? timeArray[1].toString() : '';
@@ -887,7 +894,7 @@
         if (this.defaultTime) {
           this.setDefaultTime(this.defaultTime);
         } else {
-          this.setTime('0:0:0');
+          this.setTime('0' + this.timeSeparator + '0' + this.timeSeparator + '0');
         }
       }
 
@@ -969,9 +976,9 @@
         return;
       }
 
-      var t = this.$widget.find('input.bootstrap-timepicker-hour').val() + ':' +
+      var t = this.$widget.find('input.bootstrap-timepicker-hour').val() + this.timeSeparator +
               this.$widget.find('input.bootstrap-timepicker-minute').val() +
-              (this.showSeconds ? ':' + this.$widget.find('input.bootstrap-timepicker-second').val() : '') +
+              (this.showSeconds ? this.timeSeparator + this.$widget.find('input.bootstrap-timepicker-second').val() : '') +
               (this.showMeridian ? this.$widget.find('input.bootstrap-timepicker-meridian').val() : '')
       ;
 
@@ -1058,7 +1065,8 @@
 
   //TIMEPICKER PLUGIN DEFINITION
   $.fn.timepicker = function(option) {
-    var args = Array.apply(null, arguments);
+    var args = Array.apply(null, arguments),
+        opts;
     args.shift();
     return this.each(function() {
       var $this = $(this),
@@ -1066,7 +1074,8 @@
         options = typeof option === 'object' && option;
 
       if (!data) {
-        $this.data('timepicker', (data = new Timepicker(this, $.extend({}, $.fn.timepicker.defaults, options, $(this).data()))));
+        opts = $.extend({}, $.fn.timepicker.defaults, options, $(this).data());
+        $this.data('timepicker', (data = new Timepicker(this, opts)));
       }
 
       if (typeof option === 'string') {
@@ -1089,7 +1098,8 @@
     showMeridian: true,
     template: 'dropdown',
     appendWidgetTo: 'body',
-    showWidgetOnAddonClick: true
+    showWidgetOnAddonClick: true,
+    separator: ':'
   };
 
   $.fn.timepicker.Constructor = Timepicker;
