@@ -319,16 +319,128 @@
       return template;
     },
 
-    getTime: function() {
-      if (this.hour === '') {
+    /*
+     * Returns the currently selected time.  If no format is passed in, time
+     * is in the same format as is displayed. If format is given time is output
+     * in given format. 
+     * 
+     * Format options:
+     *  - h,hh - 12-hour hour (zero padded)
+     *  - H,HH - 24-hour hour (zero padded)
+     *  - m,mm - minutes (zero padded)
+     *  - s,ss - seconds (zero padded)
+     *  - a,A - meridian (aka AM/PM)
+     */
+    getTime: function(format) {
+      var self = this;
+
+      function zeroPad(num)
+      {
+        var str = num.toString();
+        return (str.length > 1) ? str : '0' + str;
+      }
+
+      function getHour(as12Hour)
+      {
+        if(as12Hour)
+        {
+          if(self.showMeridian)
+          {
+            return self.hour;
+          }
+          else
+          {
+            return (self.meridian === 'AM') ? self.hour : self.hour - 12;
+          }
+        }
+        else
+        {
+          if(self.showMeridian)
+          {
+            return (self.meridian === 'AM') ? self.hour : self.hour + 12;
+          }
+          else
+          {
+            return self.hour;
+          }
+        }
+      }
+
+      function getMeridian()
+      {
+        if(self.showMeridian)
+        {
+          return self.meridian;
+        }
+        else if(self.hour > 12)
+        {
+          return 'PM';
+        }
+        else
+        {
+          return 'AM';
+        }
+      }
+
+      function mapFormat(formatItem)
+      {
+        switch(formatItem)
+        {
+          case 'h':
+            return zeroPad(getHour(true));
+          case 'H':
+            return zeroPad(getHour(false));
+          case 'm':
+            return zeroPad(self.minute);
+          case 's':
+            return zeroPad(self.second);
+          case 'a':
+            return getMeridian();
+          default:
+            return formatItem;
+        }
+      }
+
+      function formatTime(format)
+      {
+        var normalizationMapping = {
+            'hh': 'h',
+            'hH': 'h',
+            'Hh': 'h',
+            'HH': 'H',
+            'mm': 'm',
+            'ss': 's',
+            'A': 'a'
+          },
+          formattedTime = '',
+          normalizedFormat;
+
+        normalizedFormat = format;
+        $.each(normalizationMapping, function(index, value) {
+          normalizedFormat = normalizedFormat.replace(index, value);
+        });
+
+        $.each(normalizedFormat.split(''), function (index, chr) {
+          formattedTime += mapFormat(chr);
+        });
+
+        return formattedTime;
+      }
+
+      if (self.hour === '') {
         return '';
       }
 
-      return this.hour +
-        this.timeSeparator +
-        (this.minute.toString().length === 1 ? '0' + this.minute : this.minute) +
-        (this.showSeconds ? this.timeSeparator + (this.second.toString().length === 1 ? '0' + this.second : this.second) : '') +
-        (this.showMeridian ? ' ' + this.meridian : '');
+      if(format)
+      {
+        return formatTime(format);
+      }
+
+      return self.hour +
+        self.timeSeparator +
+        (self.minute.toString().length === 1 ? '0' + self.minute : self.minute) +
+        (self.showSeconds ? self.timeSeparator + (self.second.toString().length === 1 ? '0' + self.second : self.second) : '') +
+        (self.showMeridian ? ' ' + self.meridian : '');
     },
 
     hideWidget: function() {

@@ -484,4 +484,53 @@ describe('Timepicker feature', function() {
     expect(tp1.isOpen).toBe(true);
   });
 
+  it('should be able to getTime in custom format', function() {
+    tp1.hour = 10;
+    tp1.minute = 30;
+    tp1.second = 48;
+    tp1.meridian = 'PM';
+    tp1.updateElement();
+
+    expect(tp1.getTime('a_h_m_s')).toBe('PM_10_30_48');
+  });
+
+  it('should be able to getTime in custom format when showMeridian is true and requested format is 12-hour', function() {
+    tp1.hour = 3;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.showMeridian = true;
+    tp1.updateElement();
+
+    expect(tp1.getTime('a_h_m_s')).toBe('PM_03_05_13');
+  });
+    
+  it('should be able to getTime in custom format when showMeridian is true and requested format is 24-hour', function() {
+    tp1.hour = 5;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.showMeridian = true;
+    tp1.updateElement();
+
+    expect(tp1.getTime('a_H_m_s')).toBe('PM_17_05_13');
+  });
+
+  it('should be able to getTime in custom format when showMeridian is false and requested format is 12-hour', function() {
+    tp1.hour = 15;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.showMeridian = false;
+    tp1.updateElement();
+
+    expect(tp1.getTime('a_h_m_s')).toBe('PM_03_05_13');
+  });
+
+  it('should be able to getTime in custom format when showMeridian is false and requested format is 24-hour', function() {
+    tp1.hour = 15;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.showMeridian = false;
+    tp1.updateElement();
+
+    expect(tp1.getTime('H_m_s')).toBe('15_05_13');
+  });
 });
