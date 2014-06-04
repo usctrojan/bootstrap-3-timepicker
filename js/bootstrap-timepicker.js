@@ -30,6 +30,7 @@
     this.appendWidgetTo = options.appendWidgetTo;
     this.showWidgetOnAddonClick = options.showWidgetOnAddonClick;
     this.timeSeparator = options.separator;
+    this.meridianDesignators = options.meridianDesignators;    
 
     this._init();
   };
@@ -342,6 +343,7 @@
 
       function getHour(as12Hour)
       {
+        var amDesignator = self.meridianDesignators['AM'];
         if(as12Hour)
         {
           if(self.showMeridian)
@@ -350,14 +352,14 @@
           }
           else
           {
-            return (self.meridian === 'AM') ? self.hour : self.hour - 12;
+            return (self.meridian === amDesignator) ? self.hour : self.hour - 12;
           }
         }
         else
         {
           if(self.showMeridian)
           {
-            return (self.meridian === 'AM') ? self.hour : self.hour + 12;
+            return (self.meridian === amDesignator) ? self.hour : self.hour + 12;
           }
           else
           {
@@ -374,11 +376,11 @@
         }
         else if(self.hour > 12)
         {
-          return 'PM';
+          return self.meridianDesignators['PM'];
         }
         else
         {
-          return 'AM';
+          return self.meridianDesignators['AM'];
         }
       }
 
@@ -794,7 +796,7 @@
             hours = dTime.getHours(),
             minutes = dTime.getMinutes(),
             seconds = dTime.getSeconds(),
-            meridian = 'AM';
+            meridian = this.meridianDesignators['AM'];
 
           if (seconds !== 0) {
             seconds = Math.ceil(dTime.getSeconds() / this.secondStep) * this.secondStep;
@@ -819,9 +821,9 @@
               if (hours > 12) {
                 hours = hours - 12;
               }
-              meridian = 'PM';
+              meridian = this.meridianDesignators['PM'];
             } else {
-              meridian = 'AM';
+              meridian = this.meridianDesignators['AM'];
             }
           }
 
@@ -836,7 +838,7 @@
           this.hour = 0;
           this.minute = 0;
           this.second = 0;
-          this.meridian = 'AM';
+          this.meridian = this.meridianDesignators['AM'];
         } else {
           this.setTime(defaultTime);
         }
@@ -846,17 +848,16 @@
     },
 
     setTime: function(time, ignoreWidget) {
-      var regex;
-      if (!time) {
-        this.clear();
-        return;
-      }
-
-      var timeArray,
+      var regex,
+          timeArray,
           hour,
           minute,
           second,
           meridian;
+      if (!time) {
+        this.clear();
+        return;
+      }    
 
       if (typeof time === 'object' && time.getMonth){
         // this is a date object
@@ -865,21 +866,26 @@
         second  = time.getSeconds();
 
         if (this.showMeridian){
-          meridian = 'AM';
+          meridian = this.meridianDesignators['AM'];
           if (hour > 12){
-            meridian = 'PM';
+            meridian = this.meridianDesignators['PM'];
             hour = hour % 12;
           }
 
           if (hour === 12){
-            meridian = 'PM';
+            meridian = this.meridianDesignators['PM'];
           }
         }
       } else {
-        if (time.match(/p/i) !== null) {
-          meridian = 'PM';
+
+        console.log("Here!! " + time);
+        regex = new RegExp(this.meridianDesignators['PM'].substr(0, 1), 'i');        
+        if (time.match(regex)) {
+          console.log("PM");
+          meridian = this.meridianDesignators['PM'];
         } else {
-          meridian = 'AM';
+          console.log("AM");
+          meridian = this.meridianDesignators['AM'];
         }
 
         regex = new RegExp('[^0-9\\' + this.timeSeparator + ']', 'g');
@@ -933,7 +939,7 @@
           } else if (hour < 0) {
             hour = 0;
           }
-          if (hour < 13 && meridian === 'PM') {
+          if (hour < 13 && meridian === this.meridianDesignators['PM']) {
             hour = hour + 12;
           }
         }
@@ -959,6 +965,8 @@
       this.minute = minute;
       this.second = second;
       this.meridian = meridian;
+
+      console.log("Setting meridian to " + meridian + " input time: " + time)
 
       this.update(ignoreWidget);
     },
@@ -1022,7 +1030,7 @@
     },
 
     toggleMeridian: function() {
-      this.meridian = this.meridian === 'AM' ? 'PM' : 'AM';
+      this.meridian = this.meridian === this.meridianDesignators['AM'] ? this.meridianDesignators['PM'] : this.meridianDesignators['AM'];
     },
 
     update: function(ignoreWidget) {
@@ -1211,7 +1219,11 @@
     template: 'dropdown',
     appendWidgetTo: 'body',
     showWidgetOnAddonClick: true,
-    separator: ':'
+    separator: ':',
+    meridianDesignators: {
+      'AM': 'AM',
+      'PM': 'PM'
+    }
   };
 
   $.fn.timepicker.Constructor = Timepicker;
