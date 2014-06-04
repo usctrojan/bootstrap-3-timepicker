@@ -350,7 +350,7 @@
           }
           else
           {
-            return (self.meridian === 'AM') ? self.hour : self.hour - 12;
+            return (self.hour > 12) ? self.hour - 12 : self.hour;
           }
         }
         else
