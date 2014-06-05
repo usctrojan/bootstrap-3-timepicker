@@ -1033,6 +1033,7 @@
       this.$element.trigger({
         'type': 'changeTime.timepicker',
         'time': {
+          'date': this.getTime('date'),
           'value': this.getTime(),
           'hours': this.hour,
           'minutes': this.minute,
