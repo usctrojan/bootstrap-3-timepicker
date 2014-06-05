@@ -334,14 +334,12 @@
     getTime: function(format) {
       var self = this;
 
-      function zeroPad(num)
-      {
+      function zeroPad(num) {
         var str = num.toString();
         return (str.length > 1) ? str : '0' + str;
       }
 
-      function getHour(as12Hour)
-      {
+      function getHour(as12Hour) {
         if(as12Hour)
         {
           if(self.showMeridian)
@@ -357,7 +355,7 @@
         {
           if(self.showMeridian)
           {
-            return (self.meridian === 'AM') ? self.hour : self.hour + 12;
+            return (self.meridian === 'PM') ? self.hour + 12 : self.hour;
           }
           else
           {
@@ -366,8 +364,7 @@
         }
       }
 
-      function getMeridian()
-      {
+      function getMeridian() {
         if(self.showMeridian)
         {
           return self.meridian;
@@ -382,8 +379,7 @@
         }
       }
 
-      function mapFormat(formatItem)
-      {
+      function mapFormat(formatItem) {
         switch(formatItem)
         {
           case 'h':
@@ -401,8 +397,7 @@
         }
       }
 
-      function formatTime(format)
-      {
+      function formatTime(format) {
         var normalizationMapping = {
             'hh': 'h',
             'hH': 'h',
@@ -429,6 +424,10 @@
 
       if (self.hour === '') {
         return '';
+      }
+
+      if(format === 'date') {
+        return new Date(1970, 0, 1, getHour(false), self.minute, self.second, 0);
       }
 
       if(format)

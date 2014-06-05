@@ -539,4 +539,27 @@ describe('Timepicker feature', function() {
 
     expect(tp1.getTime('H_m_s')).toBe('16_05_13');
   });
+
+  it('should be able to getTime as a javascript date object', function() {
+    tp1.hour = 16;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.showSeconds= true;
+    tp1.showMeridian = false;
+    tp1.updateElement();
+
+    expect(tp1.getTime('date')).toEqual(new Date(1970, 0, 1, 16, 5, 13));
+  });
+
+  it('should be able to getTime as a javascript date object 24-hour', function() {
+    tp1.hour = 1;
+    tp1.minute = 5;
+    tp1.second = 13;
+    tp1.meridian = 'PM';
+    tp1.showSeconds= true;
+    tp1.showMeridian = true;
+    tp1.updateElement();
+
+    expect(tp1.getTime('date')).toEqual(new Date(1970, 0, 1, 13, 5, 13));
+  });
 });
