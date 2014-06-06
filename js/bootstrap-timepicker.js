@@ -34,6 +34,29 @@
     this._init();
   };
 
+  function areEqualTime(date1, date2)
+  {
+    console.log('************* areEqualTime *****************');
+    console.log('** date1: ' + date1 + ' ; date2: ' + date2);
+    if(typeof(date1) === 'undefined' || typeof(date2) === 'undefined') {
+      return false;      
+    }
+
+    if(typeof(date1) !== 'object' || !date1.getMonth)
+    {
+      throw new Error('date1 is not a Date object');
+    }
+
+    if(typeof(date2) !== 'object' || !date2.getMonth)
+    {
+      throw new Error('date2 is not a Date object');
+    } 
+
+    return date1.getHours() === date2.getHours() &&
+      date1.getMinutes() === date2.getMinutes() &&
+      date1.getSeconds() === date2.getSeconds();
+  }
+
   Timepicker.prototype = {
 
     constructor: Timepicker,
@@ -355,7 +378,7 @@
         {
           if(self.showMeridian)
           {
-            return (self.meridian === 'PM') ? self.hour + 12 : self.hour;
+            return (self.meridian === 'PM'  && self.hour !== 12) ? self.hour + 12 : self.hour;
           }
           else
           {
@@ -369,7 +392,7 @@
         {
           return self.meridian;
         }
-        else if(self.hour > 12)
+        else if(self.hour >= 12)
         {
           return 'PM';
         }
@@ -845,19 +868,26 @@
     },
 
     setTime: function(time, ignoreWidget) {
-      var regex;
+      var regex,
+          timeArray,
+          hour,
+          minute,
+          second,
+          meridian,
+          currentDate;
       if (!time) {
         this.clear();
         return;
       }
 
-      var timeArray,
-          hour,
-          minute,
-          second,
-          meridian;
+      if (typeof time === 'object' && time.getMonth) {
+        currentDate = this.getTime('date');
+        if(areEqualTime(currentDate, time))
+        {
+          // don't do anything if the current date is the same as the new date
+          return;
+        }
 
-      if (typeof time === 'object' && time.getMonth){
         // this is a date object
         hour    = time.getHours();
         minute  = time.getMinutes();
@@ -867,7 +897,7 @@
           meridian = 'AM';
           if (hour > 12){
             meridian = 'PM';
-            hour = hour % 12;
+            hour = hour - 12;
           }
 
           if (hour === 12){

@@ -51,6 +51,7 @@ module.exports = function(grunt) {
         laxcomma: true,
         white: false,
         globals: {
+          jasmine: true,
           jQuery: true,
           $: true,
           expect: true,

@@ -162,6 +162,22 @@ describe('Timepicker feature', function() {
   });
 
   it('should be able get & set the pickers time', function() {
+    var time1 = new Date(2000, 0, 1, 9, 15, 0),
+        time2 = new Date(2015, 0, 1, 16, 0, 0),
+        tp1Time;
+
+    tp1.setTime(time1);
+    tp1Time = tp1.getTime('date');
+    expect(tp1Time.getHours()).toBe(9);
+    expect(tp1Time.getMinutes()).toBe(15);
+    expect(tp1Time.getSeconds()).toBe(0);
+
+    tp1.setTime(time2);
+    tp1Time = tp1.getTime('date');
+    expect(tp1Time.getHours()).toBe(16);
+    expect(tp1Time.getMinutes()).toBe(0);
+    expect(tp1Time.getSeconds()).toBe(0);
+
     tp1.setTime('11:15 PM');
     expect(tp1.getTime()).toBe('11:15 PM');
     tp3.setTime('23:15:20');
@@ -219,6 +235,56 @@ describe('Timepicker feature', function() {
 
     tp3.setTime('0:00');
     expect(tp3.getTime()).toBe('0:00:00', 'setTime with 0:00 on tp3');
+  });
+
+  it('should update the element and widget by passing Date object to setTime method', function() {
+    var time1 = new Date(2000, 0, 1, 9, 15, 20);
+    tp2.setTime(time1);
+
+    expect(tp2.hour).toBe(9);
+    expect(tp2.minute).toBe(15);
+    expect(tp2.second).toBe(20);
+    expect(tp2.meridian).toBe('AM');
+    expect($input2.val()).toBe('9:15:20 AM');
+    expect(tp2.$widget.find('.bootstrap-timepicker-hour').val()).toBe('9');
+    expect(tp2.$widget.find('.bootstrap-timepicker-minute').val()).toBe('15');
+    expect(tp2.$widget.find('.bootstrap-timepicker-second').val()).toBe('20');
+    expect(tp2.$widget.find('.bootstrap-timepicker-meridian').val()).toBe('AM');
+  });
+
+  it('should update the element and widget by passing Date object (hour in the PM) to setTime method', function() {
+    var time1 = new Date(2000, 0, 1, 14, 15, 20);
+    tp2.setTime(time1);
+
+    expect(tp2.hour).toBe(2);
+    expect(tp2.minute).toBe(15);
+    expect(tp2.second).toBe(20);
+    expect(tp2.meridian).toBe('PM');
+    expect($input2.val()).toBe('2:15:20 PM');
+    expect(tp2.$widget.find('.bootstrap-timepicker-hour').val()).toBe('2');
+    expect(tp2.$widget.find('.bootstrap-timepicker-minute').val()).toBe('15');
+    expect(tp2.$widget.find('.bootstrap-timepicker-second').val()).toBe('20');
+    expect(tp2.$widget.find('.bootstrap-timepicker-meridian').val()).toBe('PM');
+  });
+
+  it('should not trigger a changeTime event when setTime sets the same time as currently selected', function() {
+    var time1 = new Date(2000, 1, 1, 1, 30, 0, 0);
+    var time2 = new Date(1980, 10, 2, 1, 30, 0, 0);
+    var time3 = new Date(1980, 10, 2, 10, 15, 0, 0);
+    var callback = jasmine.createSpy('callback');
+    tp2.setTime(time1);
+
+    $timepicker2.on('changeTime.timepicker', callback);
+
+    tp2.setTime(time2);
+
+    expect(callback).not.toHaveBeenCalled();
+
+    tp2.setTime(time3);
+
+    expect(callback).toHaveBeenCalled();
+
+    $timepicker2.off('changeTime.timepicker', callback);
   });
 
   it('should update picker on blur', function() {
