@@ -36,8 +36,6 @@
 
   function areEqualTime(date1, date2)
   {
-    console.log('************* areEqualTime *****************');
-    console.log('** date1: ' + date1 + ' ; date2: ' + date2);
     if(typeof(date1) === 'undefined' || typeof(date2) === 'undefined') {
       return false;      
     }
