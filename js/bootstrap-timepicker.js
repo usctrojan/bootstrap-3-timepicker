@@ -367,21 +367,34 @@
           {
             return self.hour;
           }
-          else
-          {
-            return (self.hour > 12) ? self.hour - 12 : self.hour;
-          }
+          
+          // Convert 24-hour hour to a 12-hour hour
+          return (self.hour > 12) ? self.hour - 12 : self.hour;
         }
         else
         {
-          if(self.showMeridian)
-          {
-            return (self.meridian === 'PM'  && self.hour !== 12) ? self.hour + 12 : self.hour;
-          }
-          else
+          if(!self.showMeridian)
           {
             return self.hour;
           }
+           
+          // Convert 12-hour hour to a 24-hour hour
+          if(self.meridian === 'PM')
+          {
+            if(self.hour !== 12)
+            {
+              return self.hour + 12;
+            }
+            return self.hour;
+          }
+          else
+          {
+            if(self.hour === 12)
+            {
+              return 0;
+            }
+            return self.hour;
+          }          
         }
       }
 

@@ -164,6 +164,7 @@ describe('Timepicker feature', function() {
   it('should be able get & set the pickers time', function() {
     var time1 = new Date(2000, 0, 1, 9, 15, 0),
         time2 = new Date(2015, 0, 1, 16, 0, 0),
+        time3 = new Date(2013, 0, 1, 0, 1, 2),
         tp1Time;
 
     tp1.setTime(time1);
@@ -176,6 +177,18 @@ describe('Timepicker feature', function() {
     tp1Time = tp1.getTime('date');
     expect(tp1Time.getHours()).toBe(16);
     expect(tp1Time.getMinutes()).toBe(0);
+    expect(tp1Time.getSeconds()).toBe(0);
+    
+    tp1.setTime(time3);
+    tp1Time = tp1.getTime('date');
+    expect(tp1Time.getHours()).toBe(0);
+    expect(tp1Time.getMinutes()).toBe(1);
+    expect(tp1Time.getSeconds()).toBe(2);
+    
+    tp1.setTime('12:15 AM');
+    tp1Time = tp1.getTime('date');
+    expect(tp1Time.getHours()).toBe(0);
+    expect(tp1Time.getMinutes()).toBe(15);
     expect(tp1Time.getSeconds()).toBe(0);
 
     tp1.setTime('11:15 PM');
